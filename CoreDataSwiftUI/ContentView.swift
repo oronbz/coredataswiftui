@@ -11,16 +11,12 @@ import SwiftUI
 struct ContentView: View {
     @FetchRequest(entity: ProfessionBook.entity(), sortDescriptors: []) var professionBooks: FetchedResults<ProfessionBook>
 
-    func professions(for book: ProfessionBook) -> [Profession] {
-        book.professions?.allObjects as? [Profession] ?? []
-    }
-
     var body: some View {
         NavigationView {
             List {
                 ForEach(professionBooks, id: \.self) { (book: ProfessionBook) in
                     Section(header: Text(book.name ?? "Unknown")) {
-                        ForEach(self.professions(for: book), id: \.self) { (profession: Profession) in
+                        ForEach(book.unwrappedProfessions, id: \.self) { (profession: Profession) in
                             Text(profession.name ?? "Unknown")
                         }
                     }
@@ -29,6 +25,12 @@ struct ContentView: View {
             .navigationBarTitle("Professions")
             .listStyle(GroupedListStyle())
         }
+    }
+}
+
+private extension ProfessionBook {
+    var unwrappedProfessions: [Profession] {
+        professions?.allObjects as? [Profession] ?? []
     }
 }
 
@@ -66,3 +68,4 @@ struct ContentView_Previews: PreviewProvider {
             .environment(\.managedObjectContext, context)
     }
 }
+
