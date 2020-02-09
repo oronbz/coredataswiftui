@@ -14,9 +14,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(professionBooks, id: \.self) { book in
+                ForEach(professionBooks, id: \.id) { book in
                     Section(header: Text(book.name ?? "Unknown")) {
-                        ForEach(book.unwrappedProfessions, id: \.self) { profession in
+                        ForEach(book.unwrappedProfessions, id: \.id) { profession in
                             Text(profession.name ?? "Unknown")
                         }
                     }
