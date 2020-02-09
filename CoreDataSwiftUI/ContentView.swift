@@ -14,9 +14,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(professionBooks, id: \.id) { book in
+                ForEach(professionBooks) { book in
                     Section(header: Text(book.name ?? "Unknown")) {
-                        ForEach(book.unwrappedProfessions, id: \.id) { profession in
+                        ForEach(book.unwrappedProfessions) { profession in
                             Text(profession.name ?? "Unknown")
                         }
                     }
@@ -28,11 +28,13 @@ struct ContentView: View {
     }
 }
 
-private extension ProfessionBook {
+extension ProfessionBook: Identifiable {
     var unwrappedProfessions: [Profession] {
         professions?.allObjects as? [Profession] ?? []
     }
 }
+
+extension Profession: Identifiable {}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
